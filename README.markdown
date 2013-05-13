@@ -88,6 +88,24 @@ $incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
 
 In this example, $incommon would be the array [ '1' ]
 
+is_ipv4
+-------
+Arguments:
+
+- string value
+
+Returns true if the string passed is an ipv4 address/network.  Returns false
+otherwise.
+
+is_ipv6
+-------
+Arguments:
+
+- string value
+
+Returns true if the string passed is an ipv6 address/network. Returns false
+otherwise.
+
 lead
 ----
 Arguments:
