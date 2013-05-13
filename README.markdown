@@ -2,6 +2,25 @@
 
 This module provides some useful library functions not found in stdlib
 
+# Facts #
+
+osplatform
+----------
+
+Contains the fact osplatform, which currently only supports RedHat distros.
+For RHEL6 deriviatives, fact would contain 'el6', for RHEL5 deriviatives fact
+would contain 'el5'.
+
+ssh_dsa_fp
+----------
+
+The hosts SSH DSA fingerprint
+
+ssh_rsa_fp
+----------
+
+The hosts SSH RSA fingerprint
+
 # Functions #
 
 any2bool
