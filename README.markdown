@@ -73,6 +73,26 @@ $diff = array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
 
 In this example, $diff would be the array [ '2' ]
 
+array_do
+--------
+
+- values : an array of values to iterate over
+- func : function to execute against the elements of $values
+- params : additional parameters to pass to the function
+
+Takes an array of values, and iterates over the array while executing the
+function 'func' against all of the values.  If passed a string/array of
+additional values, those will be appended to the iterated value as the parameter
+array to the function.
+
+If there is any output to the function, it will be returned in a hash, with the
+element as the key.
+
+For example:
+
+$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
+$output = array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
+
 array_intersect
 ---------------
 Arguments:
