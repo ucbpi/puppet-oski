@@ -22,7 +22,6 @@ the array element, and the result of the resulting function.
 
     Puppet::Parser::Functions.function(func)
 
-    count = 0
     data.each do |element|
       args = [ element, params ]
       args.compact!
