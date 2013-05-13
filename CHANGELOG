@@ -1,0 +1,5 @@
+2013-05-13 Aaron Russo <arusso@berkeley.edu> - 0.0.2
+* Added array_difference and array_intersect functions
+
+2013-04-29 Aaron Russo <arusso@berkeley.edu> - 0.0.1
+* Initial release

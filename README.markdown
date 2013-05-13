@@ -17,7 +17,7 @@ value = any2bool('f') # would be false
 value = any2bool(true) # would be true
 value = any2boold('1') # would be true
 value = any2bool('') # would be false
-</pre></code>
+</code></pre>
 
 Truth Table:
 <table>
@@ -38,6 +38,36 @@ Truth Table:
   <td>false</td>
 </tr>
 </table>
+
+array_difference
+----------------
+Arguments:
+- lhs : an array to have values subtracted from
+- rhs : an array of values to subtract from $lhs
+
+Given two arrays, lhs and rhs, removes the entries in rhs from lhs.
+
+Example:
+<pre><code>
+$diff = array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
+</code></pre>
+
+In this example, $diff would be the array [ '2' ]
+
+array_intersect
+---------------
+Arguments:
+- lhs : an array of values
+- rhs : an array of values
+
+Given two arrays, returns all elements that are in common to both arrays
+
+Example:
+<pre><code>
+$incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
+</code></pre>
+
+In this example, $incommon would be the array [ '1' ]
 
 lead
 ----
@@ -104,6 +134,8 @@ similar_elements
 ----------------
 - array_lhs : An array of elements
 - array_rhs : An array of elements
+
+NOTE: this function has been deprecated in favor of using array_intersect()
 
 Given two arrays, returns a single array with elements that are in common
 between both. Essentially a logical AND of the two arrays
