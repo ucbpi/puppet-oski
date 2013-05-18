@@ -106,7 +106,7 @@ key, and the output as the value.
 
 <pre><code>$ips = [ '127.0.0.1', '::1', '192.168.0.0/24' ]
 $out = array_do_r( $ips, 'is_ipv6' )
-$v6_ips = delete_keys_with_value( $out, false )
+$v6_ips = delete_key_with_value( $out, false )
 </code></pre>
 
 In this case, <tt>$v6_ips = { '::1' => true }</tt>
@@ -124,6 +124,14 @@ Example:
 </code></pre>
 
 In this example, $incommon would be the array [ '1' ]
+
+delete_key_with_value
+---------------------
+- hash : hash table of values to work with
+- value : the value of the keys to delete
+
+When passed a hash table, and a match string/regex/boolean (or an array of),
+this function will delete any key-value pairs it matches against.
 
 is_ipv4
 -------
