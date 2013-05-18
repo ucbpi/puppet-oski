@@ -31,8 +31,7 @@ Arguments:
 Given a string or boolean that looks like a boolean, it converts it to a bool.
 
 Example:
-<pre><code>
-value = any2bool('f') # would be false
+<pre><code>value = any2bool('f') # would be false
 value = any2bool(true) # would be true
 value = any2boold('1') # would be true
 value = any2bool('') # would be false
@@ -67,8 +66,7 @@ Arguments:
 Given two arrays, lhs and rhs, removes the entries in rhs from lhs.
 
 Example:
-<pre><code>
-$diff = array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
+<pre><code>$diff = array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
 </code></pre>
 
 In this example, $diff would be the array [ '2' ]
@@ -90,8 +88,9 @@ element as the key.
 
 For example:
 
-$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
+<pre><code>$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
 $output = array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
+</code></pre>
 
 array_intersect
 ---------------
@@ -102,8 +101,7 @@ Arguments:
 Given two arrays, returns all elements that are in common to both arrays
 
 Example:
-<pre><code>
-$incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
+<pre><code>$incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
 </code></pre>
 
 In this example, $incommon would be the array [ '1' ]
