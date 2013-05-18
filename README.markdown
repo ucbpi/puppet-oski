@@ -83,14 +83,33 @@ function 'func' against all of the values.  If passed a string/array of
 additional values, those will be appended to the iterated value as the parameter
 array to the function.
 
-If there is any output to the function, it will be returned in a hash, with the
-element as the key.
-
 For example:
 
 <pre><code>$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
-$output = array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
+array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
 </code></pre>
+
+array_do_r
+----------
+
+- values: an array of values to iterate over
+- func : function to execute against the elemnts of $values
+- params : additional parameters to pass the function
+
+Takes an array of values, and iterates over the array while executing the
+function 'func' against all of the values.  If passed a string/array of
+additional values, those will be appended to the iterated value as the parameter
+array to the function.
+
+This function returns the output in a hash, with each iterated element as the
+key, and the output as the value.
+
+<pre><code>$ips = [ '127.0.0.1', '::1', '192.168.0.0/24' ]
+$out = array_do_r( $ips, 'is_ipv6' )
+$v6_ips = delete_keys_with_value( $out, false )
+</code></pre>
+
+In this case, <tt>$v6_ips = { '::1' => true }</tt>
 
 array_intersect
 ---------------
