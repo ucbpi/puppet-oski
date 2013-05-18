@@ -1,27 +1,26 @@
 #
-# array_do.rb
+# array_do_r.rb
 #
 module Puppet::Parser::Functions
-  newfunction(:array_do, :doc => <<-EOS
+  newfunction(:array_do_r, :type => :rvalue, :doc => <<-EOS
 When passed an array, a function name and parameters, executes the specified
-function on each element of the array.
-
-If you wish to capture output, you must use array_do_r().
+function on each element of the array. Function result is returned as a hash of
+the array element, and the result of the resulting function.
 
 This function is especially useful when combined with validate_* -- you can now
 apply the validation to within your arrays.
 
 Example:
 
-$usernames = [ 'tom', 'jerry', 'bruno', 'pluto' ]
-$regex = [ '^(tom|jerry|bruno)$'
-array_do( $usernames, 'validate_re', $regex )
+$addresses = [ '10.0.0.1', '10.0..0' ]
+$ipv6_results = array_do_r( $addresses, 'is_ipv6' )
+$valid_addresses = delete_hash_values( $ipv6_results, 'false' )
     EOS
   ) do |arguments|
 
     if arguments.size < 1 or arguments.size > 3
       raise( Puppet::ParseError,
-            "array_do(): invalid arg count. must be 2 or 3." )
+            "array_do_r(): invalid arg count. must be 2 or 3." )
     end
 
     data = arguments[0]
@@ -35,6 +34,8 @@ array_do( $usernames, 'validate_re', $regex )
       params = Array.new.push(params)
     end
 
+    result = Hash.new 
+
     # Let's load our puppet function
     # TODO: validate its a good function
     Puppet::Parser::Functions.function(func)
@@ -43,12 +44,11 @@ array_do( $usernames, 'validate_re', $regex )
     # array and then executing our function.
     data.each do |element|
       args = params.dup.insert(0,element)
-      if args.size > 2
-        raise(Puppet::ParseError, args )
-      end
       args.compact!
-      send("function_#{func}", args)
+      result[element] = send("function_#{func}", args)
     end
+
+    return result
   end
 end
 
