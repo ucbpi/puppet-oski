@@ -1,3 +1,10 @@
+2013-05-17 Aaron Russo <arusso@berkeley.edu> - 0.0.4
+* Added array_do and array_do_r as a poor mans loop
+
+2013-05-13 Aaron Russo <arusso@berkeley.edu> - 0.0.3
+* Added is_ipv4, is_ipv6 functions.
+* Added ssh_dsa_fp and ssh_rsa_fp facts
+
 2013-05-13 Aaron Russo <arusso@berkeley.edu> - 0.0.2
 * Added array_difference and array_intersect functions
 
