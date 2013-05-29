@@ -1,3 +1,6 @@
+2013-05-28 Aaron Russo <arusso@berkeley.edu> - 0.0.5
+* Added bool2str function
+
 2013-05-17 Aaron Russo <arusso@berkeley.edu> - 0.0.4
 * Added array_do and array_do_r as a poor mans loop
 

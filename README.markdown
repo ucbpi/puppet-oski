@@ -125,6 +125,11 @@ Example:
 
 In this example, $incommon would be the array [ '1' ]
 
+bool2str
+--------
+
+Converts a boolean to string
+
 delete_key_with_value
 ---------------------
 - hash : hash table of values to work with
