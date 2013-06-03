@@ -248,4 +248,4 @@ Support
 -------
 
 Please log tickets and issues at the
-[Projects site](https://github.com/arusso23/puppet-oski/issues/)
+[Projects site](https://github.com/arusso/puppet-oski/issues/)
