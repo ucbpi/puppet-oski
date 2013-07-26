@@ -237,7 +237,12 @@ properly formatted address.
 License
 -------
 
-None
+See LICENSE file
+
+Copyright
+---------
+
+Copyright &copy; 2013 The Regents of the University of California
 
 Contact
 -------
