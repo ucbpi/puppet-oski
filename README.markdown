@@ -4,246 +4,288 @@ This module provides some useful library functions not found in stdlib
 
 # Facts #
 
-osplatform
-----------
 
-Contains the fact osplatform, which currently only supports RedHat distros.
-For RHEL6 deriviatives, fact would contain 'el6', for RHEL5 deriviatives fact
-would contain 'el5'.
+## osplatform ##
 
-ssh_dsa_fp
-----------
+Contains the fact osplatform, which currently only supports RedHat distros. For
+RHEL6 deriviatives, fact would contain 'el6', for RHEL5 deriviatives fact would
+contain 'el5'. 
 
-The hosts SSH DSA fingerprint
+## ssh\_dsa\_fp ##
 
-ssh_rsa_fp
-----------
+The host's SSH DSA fingerprint
 
-The hosts SSH RSA fingerprint
+## ssh\_rsa\_fp ##
 
-hostname_s#
------------
+The host's SSH RSA fingerprint
 
-Splits a hostname by '-' characters, and presents each segment as a separate
-fact. For example, 'node-blah-prod-01' would be:
+## hostname\_s\# ##
 
-hostname_s1: node
-hostname_s2: blah
-hostname_s3: prod
-hostname_s4: 01
+Splits a hostname by the '-' character, and presents each segment as a separate
+fact. For example, hostname 'node-blah-prod' would be:
+
+- <tt>hostname\_s1</tt>: node
+- <tt>hostname\_s2</tt>: blah
+- <tt>hostname\_s3</tt>: prod
 
 # Functions #
 
-any2bool
---------
+## any2bool ##
+
+*Given a string or boolean that looks like a boolean, it converts it to a bool.*
+
 Arguments:
+
 - value : value to convert to a boolean
 
-Given a string or boolean that looks like a boolean, it converts it to a bool.
+*Example:*
 
-Example:
-<pre><code>value = any2bool('f') # would be false
-value = any2bool(true) # would be true
-value = any2boold('1') # would be true
-value = any2bool('') # would be false
-</code></pre>
+```
+any2bool('f')
+any2bool(true)
+any2boold('1')
+any2bool('')
+any2bool('arusso')
+```
+
+Would Result In:
+
+```
+false
+true
+true
+false
+Parse Error
+```
 
 Truth Table:
-<table>
-<tr>
-  <th>input</th>
-  <th>output</th>
-</tr>
-<tr>
-  <td>'1','t','y','true','yes'</td>
-  <td>true</td>
-</tr>
-<tr>
-  <td>'0','f','n','false','no'</td>
-  <td>false</td>
-</tr>
-<tr>
-  <td>'','undef','undefined'</td>
-  <td>false</td>
-</tr>
-</table>
 
-array_difference
-----------------
+|            Input             | Output |
+| ---------------------------- | ------ |
+| '1', 't', 'y', 'true', 'yes' | true   |
+| '0', 'f', 'n', 'false', 'no' | false  |
+| '', 'undef', 'undefined'     | false  |
+| default                      | Error  |
+
+## array\_difference ##
+
+*Given two arrays, lhs and rhs, removes the entries in rhs from lhs.*
+
 Arguments:
+
 - lhs : an array to have values subtracted from
 - rhs : an array of values to subtract from $lhs
 
-Given two arrays, lhs and rhs, removes the entries in rhs from lhs.
+*Example:*
 
-Example:
-<pre><code>$diff = array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
-</code></pre>
+```
+array_difference( [ '1', '2', '3' ], [ '1', '3', '5' ])
+```
 
-In this example, $diff would be the array [ '2' ]
+Would result in:
 
-array_do
---------
+```
+[ '2' ]
+```
+
+## array\_do ##
+
+*Takes an array of values, and iterates over the array while executing the
+function 'func' against all of the values.  If passed a string/array of
+additional values, those will be appended to the iterated value as the
+parameter array to the function.*
+
+Arguments:
 
 - values : an array of values to iterate over
 - func : function to execute against the elements of $values
 - params : additional parameters to pass to the function
 
-Takes an array of values, and iterates over the array while executing the
+
+*Example:*
+
+```
+$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
+array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
+```
+
+Would result in a parse error, since <tt>myrtle</tt> would not match the
+validat\_re call:
+
+```
+validate_re('myrtle','^(tom|jerry|bruno)$')
+```
+
+## array\_do\_r ##
+
+*Takes an array of values, and iterates over the array while executing the
 function 'func' against all of the values.  If passed a string/array of
 additional values, those will be appended to the iterated value as the parameter
-array to the function.
+array to the function.*
 
-For example:
-
-<pre><code>$usernames = [ 'tom', 'jerry', 'bruno', 'myrtle' ]
-array_do( $usernames, 'validate_re', '^(tom|jerry|bruno)$' )
-</code></pre>
-
-array_do_r
-----------
+Arguments:
 
 - values: an array of values to iterate over
 - func : function to execute against the elemnts of $values
 - params : additional parameters to pass the function
 
-Takes an array of values, and iterates over the array while executing the
-function 'func' against all of the values.  If passed a string/array of
-additional values, those will be appended to the iterated value as the parameter
-array to the function.
 
 This function returns the output in a hash, with each iterated element as the
 key, and the output as the value.
 
-<pre><code>$ips = [ '127.0.0.1', '::1', '192.168.0.0/24' ]
+*Example:*
+
+```
+$ips = [ '127.0.0.1', '::1', '192.168.0.0/24' ]
 $out = array_do_r( $ips, 'is_ipv6' )
-$v6_ips = delete_key_with_value( $out, false )
-</code></pre>
+delete_key_with_value( $out, false )
+```
 
-In this case, <tt>$v6_ips = { '::1' => true }</tt>
+Would result in:
 
-array_intersect
----------------
+```
+{ '::1' => true }
+```
+
+## array\_intersect ##
+
+*Given two arrays, returns all elements that are in common to both arrays*
+
 Arguments:
+
 - lhs : an array of values
 - rhs : an array of values
 
-Given two arrays, returns all elements that are in common to both arrays
+*Example:*
 
-Example:
-<pre><code>$incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
-</code></pre>
+```
+$incommon = array_intersect( [ '1', '2', '3' ], [ '1', '5', '8' ])
+```
 
-In this example, $incommon would be the array [ '1' ]
+Would result in:
 
-bool2str
---------
+```
+[ '1' ]
+```
 
-Converts a boolean to string
+## bool2str ##
 
-delete_key_with_value
----------------------
+*Converts a boolean to string*
+
+## delete\_key\_with\_value ##
+
+*When passed a hash table, and a match string/regex/boolean (or an array of),
+this function will delete any key-value pairs it matches against.*
+
+Arguments:
+
 - hash : hash table of values to work with
 - value : the value of the keys to delete
 
-When passed a hash table, and a match string/regex/boolean (or an array of),
-this function will delete any key-value pairs it matches against.
+## is\_ipv4 ##
 
-is_ipv4
--------
+*Returns true if the string passed is an ipv4 address/network.  Returns false
+otherwise.*
+
 Arguments:
 
 - string value
 
-Returns true if the string passed is an ipv4 address/network.  Returns false
-otherwise.
+## is\_ipv6 ##
 
-is_ipv6
--------
+*Returns true if the string passed is an ipv6 address/network. Returns false
+otherwise.*
+
 Arguments:
 
 - string value
 
-Returns true if the string passed is an ipv6 address/network. Returns false
-otherwise.
+## lead ##
 
-lead
-----
+*Given an integer value and width, ensures that integer value is *at least*
+the provided width, inserting leading zeroes as necessary*
+
 Arguments:
+
 - value : Integer value to add leading zeroes
 - width : Minimum width of integer
 
-Given an integer value and width, ensures that integer value is *at least*
-the provided width, inserting leading zeroes as necessary
+*Example:*
 
-params_lookup
--------------
+```
+lead( 4, 3 )
+lead( 22, 4)
+```
 
-Arguments:
-- varname   : The variable name we want to define
-- is_global : Should we look for this variable at the top level (ie. $::varname)
-- default   : If no value is found, what should we set the default
+Would result in:
 
-This function looks up the value of a variable in multiple locations, providing
+```
+'004'
+'0022'
+```
+
+## params\_lookup ##
+
+*This function looks up the value of a variable in multiple locations, providing
 a simple way to ascertain a value from any of those locations.  The function
 currently looks at the following locations, in order, returning the first one
-found:
+found.*
 
-<ol>
-  <li>Top-Scope Variable ($::class_[subclass_]*_varname)
-    <p>
-Useful for ENC support
-    </p>
-  </li>
-  <li> Params Value ( $class::params::varname )
+**Note:** This function is deprecated, and will be removed in later versions of
+this module
 
-    <p>
-This doesn't normally work in the top-level class, unless the class inherits the
-params class, which is not a recommended practice.
-    </p>
-  </li>
-  <li>Top-Scope Module Variable ($::module_varname)
+Arguments:
 
-    <p>
-Again, useful for ENCs
-    </p>
-  </li>
-  <li>Top-Scope Global varname ($::varname)
+- varname   : The variable name we want to define
+- is\_global : Should we look for this variable at the top level (ie. $::varname)
+- default   : If no value is found, what should we set the default
 
-    <p>
-Useful for ENCs and site.pp definitions.  Only valid if is_global is set to true
-    </p>
-  </li>
-  <li>Default value
+1.  Top-Scope Variable ($::class\_[subclass\_]*\_varname)
 
-    <p>
-Returns whatever we set as our default
-    </p>
-  </li>
-  <li>Empty string
+    Useful for ENC support
+2.  Params Value ( $class::params::varname )
 
-    <p>
-If no default is set, we'll return an empty string.
-    </p>
-  </li>
-</ol>
+    This doesn't normally work in the top-level class, unless the class inherits
+    the params class, which is not a recommended practice.
 
-similar_elements
+3.  Top-Scope Module Variable ($::module\_varname)
+
+    Again, useful for ENCs
+
+4.  Top-Scope Global varname ($::varname)
+
+    Useful for ENCs and site.pp definitions.  Only valid if is_global is set to
+    true
+  
+5.  Default value
+
+    Returns whatever we set as our default
+  
+6.  Empty string
+
+    If no default is set, we'll return an empty string.
+
+similar\_elements
 ----------------
-- array_lhs : An array of elements
-- array_rhs : An array of elements
 
-NOTE: this function has been deprecated in favor of using array_intersect()
+*Given two arrays, returns a single array with elements that are in common
+between both. Essentially a logical AND of the two arrays*
 
-Given two arrays, returns a single array with elements that are in common
-between both. Essentially a logical AND of the two arrays
+**Note:** this function has been deprecated in favor of using array\_intersect()
 
-validate_ip
------------
+Arguments:
+
+- array\_lhs : An array of elements
+- array\_rhs : An array of elements
+
+## validate\_ip ##
+
+*Given an ipv4 address, validates the address and throws an error if its not a
+properly formatted address.*
+
+Arguments:
+
 - ip : An string containing an ip address in CIDR format
-
-Given an ipv4 address, validates the address and throws an error if its not a
-properly formatted address.
 
 License
 -------
@@ -253,7 +295,7 @@ See LICENSE file
 Copyright
 ---------
 
-Copyright &copy; 2013 The Regents of the University of California
+Copyright &copy; 2014 The Regents of the University of California
 
 Contact
 -------
