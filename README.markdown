@@ -278,6 +278,18 @@ Arguments:
 - array\_lhs : An array of elements
 - array\_rhs : An array of elements
 
+*Example:*
+
+```
+similar_elements(['1','2','9'],['2','3','9'])
+```
+
+Would result in:
+
+```
+[ '2', '9' ]
+```
+
 ## validate\_ip ##
 
 *Given an ipv4 address, validates the address and throws an error if its not a
@@ -286,6 +298,25 @@ properly formatted address.*
 Arguments:
 
 - ip : An string containing an ip address in CIDR format
+
+*Example:*
+
+```
+validate_ip('192.168.0.1/24')
+validate_ip('10.0.0.2')
+validate_ip('alphabet soup')
+validate_ip('2600::1/64')
+```
+
+Would result in:
+
+```
+true
+true
+false
+false
+```
+
 
 License
 -------
