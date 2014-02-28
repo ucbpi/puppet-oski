@@ -21,6 +21,17 @@ ssh_rsa_fp
 
 The hosts SSH RSA fingerprint
 
+hostname_s#
+-----------
+
+Splits a hostname by '-' characters, and presents each segment as a separate
+fact. For example, 'node-blah-prod-01' would be:
+
+hostname_s1: node
+hostname_s2: blah
+hostname_s3: prod
+hostname_s4: 01
+
 # Functions #
 
 any2bool
