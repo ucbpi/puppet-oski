@@ -224,6 +224,32 @@ Would result in:
 '0022'
 ```
 
+## num2str ##
+
+*Converts any numeric type to a string. If a string is formatted like a number.*
+
+Arguments:
+
+- num : numeric value
+
+*Example:*
+
+```
+num2str( 4 )
+num2str( '-6' )
+num2str( -1.23 )
+num2str( '2.56' )
+```
+
+Would result in:
+
+```
+'4'
+'-6'
+'-1/23'
+'2.56'
+```
+
 ## params\_lookup ##
 
 *This function looks up the value of a variable in multiple locations, providing
