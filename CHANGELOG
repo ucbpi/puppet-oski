@@ -1,3 +1,6 @@
+2014-03-10 Aaron Russo <arusso@berkeely.edu> - 0.0.9
+* Added function num2str
+
 2014-02-28 Aaron Russo <arusso@berkeley.edu> - 0.0.8
 * Added hostname_s# fact
 * Cleaned up docs a bit
