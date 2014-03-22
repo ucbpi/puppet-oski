@@ -1,43 +1,44 @@
 #
 # any2bool.rb
 #
-# This define is heavily based on PuppetLabs' stdlib str2bool
+# Reasonably convert any object or value to a boolean.
 #
 module Puppet::Parser::Functions
   newfunction(:any2bool, :type => :rvalue, :doc => <<-EOS
-This converts any input to a boolean. This attempt to convert strings that 
-contain things like: y, 1, t, true to 'true' and strings that contain things
+This converts any input to a boolean. This attempt to convert vals that 
+contain things like: y, 1, t, true to 'true' and vals that contain things
 like: 0, f, n, false, no to 'false'.
     EOS
   ) do |arguments|
 
     raise(Puppet::ParseError, "any2bool(): Wrong number of arguments " +
-      "given (#{arguments.size} for 1)") if arguments.size < 1
+      "given (#{arguments.size} for 1)") if arguments.size < 1 or
+                                          arguments.size > 2
 
-    string = arguments[0]
+    val = arguments[0]
+    mode = 'valid'
+    mode = arguments[1] if arguments.size > 1
 
-#    unless string.is_a?(String)
-#      raise(Puppet::ParseError, 'str2bool(): Requires either ' +
-#        'string to work with')
-#    end
+    trues = [ 'y', 'yes', '1', 'true', 't', true ]
+    falses = [ 'n', 'no', '0', 'false', 'f', false, '' ]
 
-    # We consider all the yes, no, y, n and so on too ...
-    result = case string
-      #
-      # This is how undef looks like in Puppet ...
-      # We yield false in this case.
-      #
-      when false then false
-      when true then true
-      when /^$/, '' then false # Empty string will be false ...
-      when /^(1|t|y|true|yes)$/  then true
-      when /^(0|f|n|false|no)$/  then false
-      when /^(undef|undefined)$/ then false # This is not likely to happen ...
-      else
-        raise(Puppet::ParseError, 'any2bool(): Unknown type of boolean given')
+    case mode
+    when 'valid'
+      return true if trues.include? val
+      return false if falses.include? val
+    when 'def2true'
+      return false if falses.include? val
+      return true
+    when 'def2false'
+      return true if trues.include? val
+      return false
+    else
+      raise(Puppet::ParseError, "any2bool(): Unknown mode #{mode}. Must be one
+            of 'valid' (default), 'def2true', 'def2false'")
     end
 
-    return result
+    raise(Puppet::ParseError, "any2bool(): Unknown type of boolean given. Value
+          #{val.inspect} (#{val.class}) is unexpected")
   end
 end
 
