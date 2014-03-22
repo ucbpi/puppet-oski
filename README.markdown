@@ -1,5 +1,7 @@
 # Oski Function Library #
 
+[![Build Status](https://travis-ci.org/arusso/puppet-oski.svg?branch=master)](https://travis-ci.org/arusso/puppet-oski)
+
 This module provides some useful library functions not found in stdlib
 
 # Facts #
