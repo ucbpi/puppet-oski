@@ -1,3 +1,7 @@
+2014-04-01 Aaron Russo <arusso@berkeley.edu> - 0.0.10
+* Added function default2undef
+* Added some initial spec tests
+
 2014-03-10 Aaron Russo <arusso@berkeely.edu> - 0.0.9
 * Added function num2str
 
